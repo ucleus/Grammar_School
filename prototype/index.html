@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Learning | Học Tiếng Anh | Aprende Inglés</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --purple: #A78BFA;
+            --blue: #60A5FA;
+            --pink: #F472B6;
+            --orange: #FB923C;
+            --green: #34D399;
+            --dark: #1E293B;
+            --light: #F8FAFC;
+            --gradient-fun: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-warm: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-cool: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --shadow-soft: 0 10px 40px rgba(0,0,0,0.1);
+            --shadow-card: 0 8px 32px rgba(0,0,0,0.12);
+            --shadow-glow: 0 0 30px rgba(78, 205, 196, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(180deg, #E0F7FA 0%, #FFF9C4 50%, #FFCCBC 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) { width: 200px; height: 200px; background: var(--primary); top: 10%; left: -5%; }
+        .shape:nth-child(2) { width: 150px; height: 150px; background: var(--secondary); top: 60%; right: -3%; animation-delay: 2s; }
+        .shape:nth-child(3) { width: 100px; height: 100px; background: var(--accent); top: 30%; right: 10%; animation-delay: 4s; }
+        .shape:nth-child(4) { width: 180px; height: 180px; background: var(--purple); bottom: 10%; left: 10%; animation-delay: 6s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+
+        /* Language Selector */
+        .language-selector {
+            position: fixed;
+            top: 20px; left: 20px;
+            z-index: 100;
+            background: white;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .language-toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            color: #94A3B8;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .language-option.active {
+            color: var(--dark);
+            background: #F1F5F9;
+        }
+
+        .language-flag { font-size: 20px; }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px; height: 30px;
+            background: linear-gradient(135deg, #DA251D 0%, #FFCD00 100%);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.spanish {
+            background: linear-gradient(135deg, #FFC93C 0%, #FF6B6B 100%);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px; left: 3px;
+            width: 24px; height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.spanish::after { left: 33px; }
+
+        .dialect-selector {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .dialect-label {
+            font-size: 11px;
+            color: #94A3B8;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .dialect-options { display: flex; gap: 8px; }
+
+        .dialect-btn {
+            padding: 8px 14px;
+            border: 2px solid #E2E8F0;
+            background: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .dialect-btn:hover { border-color: var(--secondary); }
+
+        .dialect-btn.active {
+            background: var(--gradient-fun);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Score bar */
+        .score-bar {
+            position: fixed;
+            top: 20px; right: 20px;
+            z-index: 100;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .score-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+        }
+
+        .score-icon { font-size: 20px; }
+        .score-value { font-size: 18px; color: var(--dark); }
+
+        .streak-fire { animation: pulse 0.5s infinite alternate; }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.2); }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 20px;
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .logo-icon {
+            width: 60px; height: 60px;
+            background: var(--gradient-cool);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-text {
+            font-family: 'Baloo 2', cursive;
+            font-size: 28px;
+            font-weight: 800;
+            background: var(--gradient-fun);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-subtitle {
+            font-size: 12px;
+            color: #64748B;
+            font-weight: 600;
+        }
+
+        /* Main container */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .nav-tab {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #F1F5F9;
+            color: #64748B;
+        }
+
+        .nav-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-tab.active {
+            background: var(--gradient-fun);
+            color: white;
+        }
+
+        /* Category grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 24px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: var(--card-color, var(--gradient-fun));
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .category-card.active {
+            border: 3px solid var(--secondary);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .category-icon {
+            width: 56px; height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .category-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .category-title-native {
+            font-size: 13px;
+            color: #64748B;
+            font-weight: 600;
+        }
+
+        .category-progress {
+            background: #E2E8F0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .category-progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .category-count {
+            font-size: 12px;
+            color: #94A3B8;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        /* Learning area */
+        .learning-area {
+            background: white;
+            border-radius: 32px;
+            padding: 40px;
+            box-shadow: var(--shadow-card);
+            min-height: 400px;
+        }
+
+        .learning-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .learning-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .learning-subtitle {
+            color: #64748B;
+            font-size: 16px;
+        }
+
+        /* Phrase cards */
+        .phrase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .phrase-card {
+            background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%);
+            border: 2px solid #E2E8F0;
+            border-radius: 20px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .phrase-card:hover {
+            border-color: var(--secondary);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(78, 205, 196, 0.2);
+        }
+
+        .phrase-card.learned {
+            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+            border-color: var(--green);
+        }
+
+        .phrase-card.learned::after {
+            content: '✓';
+            position: absolute;
+            top: 12px; right: 12px;
+            width: 28px; height: 28px;
+            background: var(--green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .phrase-english {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .phrase-native {
+            font-size: 15px;
+            color: #64748B;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 10px;
+        }
+
+        .phrase-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .speak-btn {
+            background: var(--gradient-cool);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 16px;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .speak-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(79, 172, 254, 0.4);
+        }
+
+        .speak-btn.native { background: var(--gradient-warm); }
+        .speak-btn.both { background: var(--gradient-fun); }
+
+        /* Voice status */
+        .voice-status {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-card);
+            display: none;
+            align-items: center;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .voice-status.active { display: flex; }
+
+        .sound-wave {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .sound-wave span {
+            width: 4px;
+            height: 16px;
+            background: var(--secondary);
+            border-radius: 2px;
+            animation: wave 0.5s ease-in-out infinite;
+        }
+
+        .sound-wave span:nth-child(2) { animation-delay: 0.1s; }
+        .sound-wave span:nth-child(3) { animation-delay: 0.2s; }
+        .sound-wave span:nth-child(4) { animation-delay: 0.3s; }
+
+        @keyframes wave {
+            0%, 100% { height: 8px; }
+            50% { height: 20px; }
+        }
+
+        .voice-status-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        /* Welcome screen */
+        .welcome-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .welcome-mascot {
+            font-size: 100px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        .welcome-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: 42px;
+            font-weight: 800;
+            background: var(--gradient-fun);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .welcome-subtitle {
+            font-size: 20px;
+            color: #64748B;
+            margin-bottom: 40px;
+        }
+
+        .age-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .age-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 3px solid #E2E8F0;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .age-btn:hover, .age-btn.active {
+            border-color: var(--purple);
+            background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);
+        }
+
+        .mode-cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .mode-card {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            width: 260px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: var(--shadow-card);
+            border: 3px solid transparent;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--secondary);
+        }
+
+        .mode-icon { font-size: 50px; margin-bottom: 15px; }
+
+        .mode-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .mode-desc {
+            font-size: 14px;
+            color: #64748B;
+        }
+
+        /* Practice mode */
+        .practice-container { display: none; }
+        .practice-container.active { display: block; }
+
+        .practice-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: var(--shadow-card);
+        }
+
+        .practice-progress {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+
+        .progress-dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: #E2E8F0;
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.completed { background: var(--green); }
+        .progress-dot.current { background: var(--blue); transform: scale(1.3); }
+        .progress-dot.incorrect-dot { background: var(--primary); }
+
+        .practice-question {
+            font-size: 18px;
+            color: #64748B;
+            margin-bottom: 20px;
+        }
+
+        .practice-sentence {
+            font-family: 'Baloo 2', cursive;
+            font-size: 26px;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .practice-native-hint {
+            font-size: 16px;
+            color: #94A3B8;
+            margin-bottom: 25px;
+            padding: 12px 20px;
+            background: #F8FAFC;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .practice-blank {
+            display: inline-block;
+            min-width: 120px;
+            border-bottom: 4px dashed var(--secondary);
+            padding: 5px;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 8px;
+        }
+
+        .practice-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .practice-option {
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%);
+            border: 2px solid #E2E8F0;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .practice-option:hover {
+            border-color: var(--blue);
+            transform: translateY(-2px);
+        }
+
+        .practice-option.correct {
+            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+            border-color: var(--green);
+        }
+
+        .practice-option.incorrect {
+            background: linear-gradient(135deg, #FEF2F2 0%, #FECACA 100%);
+            border-color: var(--primary);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .practice-feedback {
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 18px;
+            display: none;
+        }
+
+        .practice-feedback.show { display: block; }
+        .practice-feedback.correct { background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); color: #059669; }
+        .practice-feedback.incorrect { background: linear-gradient(135deg, #FEF2F2 0%, #FECACA 100%); color: #DC2626; }
+
+        /* Game mode */
+        .game-container { display: none; }
+        .game-container.active { display: block; }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            border-radius: 20px;
+        }
+
+        .game-timer {
+            font-family: 'Baloo 2', cursive;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--orange);
+        }
+
+        .game-score {
+            font-family: 'Baloo 2', cursive;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .match-game {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .match-column { display: flex; flex-direction: column; gap: 12px; }
+
+        .match-column-title {
+            text-align: center;
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--dark);
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #F1F5F9;
+            border-radius: 12px;
+        }
+
+        .match-item {
+            padding: 16px 18px;
+            background: white;
+            border: 3px solid #E2E8F0;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .match-item:hover {
+            border-color: var(--blue);
+            transform: scale(1.02);
+        }
+
+        .match-item.selected {
+            border-color: var(--purple);
+            background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);
+        }
+
+        .match-item.matched {
+            border-color: var(--green);
+            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .match-item.wrong {
+            animation: shake 0.5s ease;
+            border-color: var(--primary);
+        }
+
+        /* Results */
+        .results-container { display: none; text-align: center; padding: 40px; }
+        .results-container.active { display: block; }
+
+        .results-icon { font-size: 80px; margin-bottom: 20px; animation: bounce 1s infinite; }
+
+        .results-title {
+            font-family: 'Baloo 2', cursive;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .results-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item { text-align: center; }
+
+        .stat-value {
+            font-family: 'Baloo 2', cursive;
+            font-size: 48px;
+            font-weight: 800;
+            background: var(--gradient-fun);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #64748B;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: var(--gradient-fun);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--dark);
+            border: 2px solid #E2E8F0;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px; height: 10px;
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .language-selector {
+                position: relative;
+                top: auto; left: auto;
+                margin: 0 auto 20px;
+                display: table;
+            }
+
+            header { padding-top: 20px; }
+
+            .score-bar {
+                top: auto; bottom: 20px;
+                right: 50%;
+                transform: translateX(50%);
+            }
+
+            .phrase-grid { grid-template-columns: 1fr; }
+            .match-game { grid-template-columns: 1fr; }
+            .category-grid { grid-template-columns: 1fr; }
+            .welcome-mascot { font-size: 70px; }
+            .welcome-title { font-size: 32px; }
+            .mode-card { width: 100%; max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="language-selector">
+        <div class="language-toggle-container">
+            <div class="language-option active" data-lang="vi" onclick="setLanguage('vi')">
+                <span class="language-flag">🇻🇳</span>
+                <span>Tiếng Việt</span>
+            </div>
+            <div class="toggle-switch" id="langToggle" onclick="toggleLanguage()"></div>
+            <div class="language-option" data-lang="es" onclick="setLanguage('es')">
+                <span class="language-flag">🇨🇴</span>
+                <span>Español</span>
+            </div>
+        </div>
+        <div class="dialect-selector">
+            <div class="dialect-label" id="dialectLabel">Giọng / Accent</div>
+            <div class="dialect-options" id="dialectOptions"></div>
+        </div>
+    </div>
+
+    <div class="score-bar">
+        <div class="score-item">
+            <span class="score-icon">⭐</span>
+            <span class="score-value" id="totalStars">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-icon streak-fire" id="streakIcon">🔥</span>
+            <span class="score-value" id="streakCount">0</span>
+        </div>
+    </div>
+
+    <div class="voice-status" id="voiceStatus">
+        <div class="sound-wave">
+            <span></span><span></span><span></span><span></span>
+        </div>
+        <span class="voice-status-text" id="voiceStatusText">Speaking...</span>
+    </div>
+
+    <header>
+        <div class="logo-container">
+            <div class="logo-icon">🎓</div>
+            <div>
+                <div class="logo-text">English Fun</div>
+                <div class="logo-subtitle" id="logoSubtitle">Học Tiếng Anh Vui Vẻ</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Welcome -->
+        <div id="welcomeScreen" class="welcome-screen">
+            <div class="welcome-mascot">🦉</div>
+            <h1 class="welcome-title" id="welcomeTitle">Chào Mừng Bạn!</h1>
+            <p class="welcome-subtitle" id="welcomeSubtitle">Học cách bắt đầu câu tiếng Anh thật chuyên nghiệp!</p>
+            
+            <div class="age-selector">
+                <button class="age-btn" data-age="young">👶 5-8</button>
+                <button class="age-btn active" data-age="middle">🧒 9-12</button>
+                <button class="age-btn" data-age="teen">👦 13-16</button>
+            </div>
+
+            <div class="mode-cards">
+                <div class="mode-card" onclick="startLearning()">
+                    <div class="mode-icon">📚</div>
+                    <div class="mode-title" id="modeLearnTitle">Học Từ Vựng</div>
+                    <div class="mode-desc" id="modeLearnDesc">Học các cách bắt đầu câu</div>
+                </div>
+                <div class="mode-card" onclick="startPractice()">
+                    <div class="mode-icon">✏️</div>
+                    <div class="mode-title" id="modePracticeTitle">Luyện Tập</div>
+                    <div class="mode-desc" id="modePracticeDesc">Điền vào chỗ trống</div>
+                </div>
+                <div class="mode-card" onclick="startGame()">
+                    <div class="mode-icon">🎮</div>
+                    <div class="mode-title" id="modeGameTitle">Chơi Game</div>
+                    <div class="mode-desc" id="modeGameDesc">Nối câu tiếng Anh</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning -->
+        <div id="learningMode" style="display: none;">
+            <nav class="nav-tabs">
+                <button class="nav-tab" onclick="showWelcome()">🏠 <span data-key="home">Trang Chủ</span></button>
+                <button class="nav-tab active" onclick="showLearning()">📚 <span data-key="learn">Học</span></button>
+                <button class="nav-tab" onclick="startPractice()">✏️ <span data-key="practice">Luyện Tập</span></button>
+                <button class="nav-tab" onclick="startGame()">🎮 <span data-key="game">Chơi Game</span></button>
+            </nav>
+            <div class="category-grid" id="categoryGrid"></div>
+            <div class="learning-area">
+                <div class="learning-header">
+                    <h2 class="learning-title" id="currentCategoryTitle">Chọn một chủ đề</h2>
+                    <p class="learning-subtitle" id="currentCategorySubtitle">Click vào thẻ để học</p>
+                </div>
+                <div class="phrase-grid" id="phraseGrid"></div>
+            </div>
+        </div>
+
+        <!-- Practice -->
+        <div id="practiceMode" class="practice-container">
+            <nav class="nav-tabs">
+                <button class="nav-tab" onclick="showWelcome()">🏠 <span data-key="home">Trang Chủ</span></button>
+                <button class="nav-tab" onclick="showLearning()">📚 <span data-key="learn">Học</span></button>
+                <button class="nav-tab active">✏️ <span data-key="practice">Luyện Tập</span></button>
+                <button class="nav-tab" onclick="startGame()">🎮 <span data-key="game">Chơi Game</span></button>
+            </nav>
+            <div class="practice-card">
+                <div class="practice-progress" id="practiceProgress"></div>
+                <p class="practice-question" id="practiceQuestion">Điền vào chỗ trống:</p>
+                <p class="practice-sentence" id="practiceSentence"></p>
+                <p class="practice-native-hint" id="practiceHint"></p>
+                <div class="practice-feedback" id="practiceFeedback"></div>
+                <div class="practice-options" id="practiceOptions"></div>
+                <button class="btn btn-primary" id="nextBtn" style="display:none;" onclick="nextPracticeQuestion()">
+                    <span id="nextBtnText">Tiếp Theo</span> →
+                </button>
+            </div>
+        </div>
+
+        <!-- Game -->
+        <div id="gameMode" class="game-container">
+            <nav class="nav-tabs">
+                <button class="nav-tab" onclick="showWelcome()">🏠 <span data-key="home">Trang Chủ</span></button>
+                <button class="nav-tab" onclick="showLearning()">📚 <span data-key="learn">Học</span></button>
+                <button class="nav-tab" onclick="startPractice()">✏️ <span data-key="practice">Luyện Tập</span></button>
+                <button class="nav-tab active">🎮 <span data-key="game">Chơi Game</span></button>
+            </nav>
+            <div class="game-header">
+                <div class="game-timer">⏱️ <span id="gameTimer">60</span>s</div>
+                <div class="game-score"><span id="gameScoreLabel">Điểm</span>: <span id="gameScore">0</span></div>
+            </div>
+            <div class="match-game">
+                <div class="match-column">
+                    <div class="match-column-title">🇬🇧 English</div>
+                    <div id="englishColumn"></div>
+                </div>
+                <div class="match-column">
+                    <div class="match-column-title" id="nativeColumnTitle">🇻🇳 Tiếng Việt</div>
+                    <div id="nativeColumn"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div id="resultsScreen" class="results-container">
+            <div class="results-icon" id="resultsIcon">🎉</div>
+            <h2 class="results-title" id="resultsTitle">Tuyệt Vời!</h2>
+            <p id="resultsMessage"></p>
+            <div class="results-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="resultScore">0</div>
+                    <div class="stat-label" id="resultScoreLabel">Điểm</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="resultCorrect">0</div>
+                    <div class="stat-label" id="resultCorrectLabel">Câu Đúng</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="resultStars">0</div>
+                    <div class="stat-label" id="resultStarsLabel">Sao</div>
+                </div>
+            </div>
+            <div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;">
+                <button class="btn btn-primary" onclick="showWelcome()">🏠 <span id="homeBtn">Trang Chủ</span></button>
+                <button class="btn btn-secondary" id="playAgainBtn">🔄 <span id="playAgainText">Chơi Lại</span></button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // === TRANSLATIONS ===
+        const translations = {
+            vi: {
+                logoSubtitle: 'Học Tiếng Anh Vui Vẻ',
+                welcomeTitle: 'Chào Mừng Bạn!',
+                welcomeSubtitle: 'Học cách bắt đầu câu tiếng Anh thật chuyên nghiệp!',
+                modeLearnTitle: 'Học Từ Vựng',
+                modeLearnDesc: 'Học các cách bắt đầu câu',
+                modePracticeTitle: 'Luyện Tập',
+                modePracticeDesc: 'Điền vào chỗ trống',
+                modeGameTitle: 'Chơi Game',
+                modeGameDesc: 'Nối câu tiếng Anh',
+                home: 'Trang Chủ', learn: 'Học', practice: 'Luyện Tập', game: 'Chơi Game',
+                score: 'Điểm', correct: 'Câu Đúng', stars: 'Sao',
+                homeBtn: 'Trang Chủ', playAgain: 'Chơi Lại', nextQuestion: 'Tiếp Theo',
+                fillBlank: 'Điền vào chỗ trống:', selectTopic: 'Chọn một chủ đề', clickToLearn: 'Click vào thẻ để học',
+                learned: 'đã học',
+                speakEnglish: '🔊 Anh', speakNative: '🔊 Việt', speakBoth: '🔊 Cả hai',
+                speaking: 'Đang nói...',
+                excellent: 'Xuất Sắc!', great: 'Tốt Lắm!', tryHarder: 'Cố Gắng!',
+                excellentMsg: 'Bạn làm tốt lắm!', greatMsg: 'Cố gắng thêm nhé!', tryHarderMsg: 'Hãy học thêm!',
+                correctAnswer: '🎉 Chính xác!', wrongAnswer: '❌ Sai! Đáp án:',
+                nativeColumn: '🇻🇳 Tiếng Việt', dialectLabel: 'Giọng nói'
+            },
+            es: {
+                logoSubtitle: 'Aprende Inglés Divertido',
+                welcomeTitle: '¡Bienvenido!',
+                welcomeSubtitle: '¡Aprende a comenzar oraciones en inglés!',
+                modeLearnTitle: 'Aprender',
+                modeLearnDesc: 'Aprende frases iniciales',
+                modePracticeTitle: 'Practicar',
+                modePracticeDesc: 'Completa los espacios',
+                modeGameTitle: 'Jugar',
+                modeGameDesc: 'Conecta inglés-español',
+                home: 'Inicio', learn: 'Aprender', practice: 'Practicar', game: 'Jugar',
+                score: 'Puntos', correct: 'Correctas', stars: 'Estrellas',
+                homeBtn: 'Inicio', playAgain: 'Jugar de Nuevo', nextQuestion: 'Siguiente',
+                fillBlank: 'Completa el espacio:', selectTopic: 'Selecciona un tema', clickToLearn: 'Haz clic para aprender',
+                learned: 'aprendidas',
+                speakEnglish: '🔊 Inglés', speakNative: '🔊 Español', speakBoth: '🔊 Ambos',
+                speaking: 'Hablando...',
+                excellent: '¡Excelente!', great: '¡Muy Bien!', tryHarder: '¡Sigue!',
+                excellentMsg: '¡Lo hiciste muy bien!', greatMsg: '¡Un poco más!', tryHarderMsg: '¡Estudia más!',
+                correctAnswer: '🎉 ¡Correcto!', wrongAnswer: '❌ ¡Incorrecto! Respuesta:',
+                nativeColumn: '🇨🇴 Español', dialectLabel: 'Acento'
+            }
+        };
+
+        const dialects = {
+            vi: [{ id: 'north', name: 'Miền Bắc' }, { id: 'south', name: 'Miền Nam' }],
+            es: [{ id: 'medellin', name: 'Medellín' }, { id: 'cartagena', name: 'Cartagena' }]
+        };
+
+        // === DATA ===
+        const categories = [
+            {
+                id: 'introduction', title: 'Introduction', titleVi: 'Giới Thiệu', titleEs: 'Introducción',
+                icon: '👋', color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                phrases: [
+                    { en: 'In this essay...', vi: 'Trong bài luận này...', es: 'En este ensayo...' },
+                    { en: 'The central theme...', vi: 'Chủ đề chính...', es: 'El tema central...' },
+                    { en: 'The essay discusses...', vi: 'Bài luận thảo luận về...', es: 'El ensayo discute...' },
+                    { en: 'We will be discussing...', vi: 'Chúng ta sẽ thảo luận về...', es: 'Vamos a discutir...' }
+                ]
+            },
+            {
+                id: 'cause-result', title: 'Cause & Result', titleVi: 'Nguyên Nhân & Kết Quả', titleEs: 'Causa y Resultado',
+                icon: '🔗', color: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                phrases: [
+                    { en: 'As a result...', vi: 'Kết quả là...', es: 'Como resultado...' },
+                    { en: 'Therefore...', vi: 'Do đó...', es: 'Por lo tanto...' },
+                    { en: 'Consequently...', vi: 'Hậu quả là...', es: 'En consecuencia...' },
+                    { en: 'Hence...', vi: 'Vì thế...', es: 'Por eso...' }
+                ]
+            },
+            {
+                id: 'comparison', title: 'Comparison', titleVi: 'So Sánh', titleEs: 'Comparación',
+                icon: '⚖️', color: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                phrases: [
+                    { en: 'Although...', vi: 'Mặc dù...', es: 'Aunque...' },
+                    { en: 'However...', vi: 'Tuy nhiên...', es: 'Sin embargo...' },
+                    { en: 'On the contrary...', vi: 'Ngược lại...', es: 'Por el contrario...' },
+                    { en: 'Nevertheless...', vi: 'Tuy nhiên...', es: 'No obstante...' },
+                    { en: 'Likewise...', vi: 'Tương tự...', es: 'De igual manera...' }
+                ]
+            },
+            {
+                id: 'emphasize', title: 'To Emphasize', titleVi: 'Để Nhấn Mạnh', titleEs: 'Para Enfatizar',
+                icon: '💪', color: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                phrases: [
+                    { en: 'Above all...', vi: 'Trên hết...', es: 'Sobre todo...' },
+                    { en: 'Certainly...', vi: 'Chắc chắn...', es: 'Ciertamente...' },
+                    { en: 'Obviously...', vi: 'Rõ ràng...', es: 'Obviamente...' },
+                    { en: 'Of course...', vi: 'Tất nhiên...', es: 'Por supuesto...' }
+                ]
+            },
+            {
+                id: 'time-order', title: 'Time & Order', titleVi: 'Thời Gian & Thứ Tự', titleEs: 'Tiempo y Orden',
+                icon: '⏰', color: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+                phrases: [
+                    { en: 'First of all...', vi: 'Trước hết...', es: 'Primero que todo...' },
+                    { en: 'Additionally...', vi: 'Thêm vào đó...', es: 'Además...' },
+                    { en: 'Finally...', vi: 'Cuối cùng...', es: 'Finalmente...' },
+                    { en: 'To begin with...', vi: 'Để bắt đầu...', es: 'Para empezar...' }
+                ]
+            },
+            {
+                id: 'conclusion', title: 'Conclusion', titleVi: 'Kết Luận', titleEs: 'Conclusión',
+                icon: '🎯', color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                phrases: [
+                    { en: 'In conclusion...', vi: 'Tóm lại...', es: 'En conclusión...' },
+                    { en: 'To sum up...', vi: 'Tổng kết lại...', es: 'Para resumir...' },
+                    { en: 'In summary...', vi: 'Tóm tắt...', es: 'En resumen...' },
+                    { en: 'To conclude...', vi: 'Để kết luận...', es: 'Para concluir...' }
+                ]
+            }
+        ];
+
+        // === STATE ===
+        let state = {
+            language: 'vi', dialect: 'north',
+            stars: 0, streak: 0,
+            learnedPhrases: new Set(),
+            currentCategory: null,
+            practiceQuestions: [], currentPracticeIndex: 0, practiceResults: [],
+            gameTimer: null, gameTimeLeft: 60, gameScore: 0,
+            selectedEnglish: null, matchedPairs: new Set(),
+            isSpeaking: false, availableVoices: []
+        };
+
+        // === SPEECH ===
+        function initVoices() {
+            state.availableVoices = speechSynthesis.getVoices();
+            speechSynthesis.onvoiceschanged = () => { state.availableVoices = speechSynthesis.getVoices(); };
+        }
+
+        function getVoice(lang) {
+            const voices = state.availableVoices;
+            if (lang === 'en') return voices.find(v => v.lang.startsWith('en-US')) || voices.find(v => v.lang.startsWith('en'));
+            if (lang === 'vi') return voices.find(v => v.lang.startsWith('vi'));
+            if (lang === 'es') return voices.find(v => v.lang === 'es-CO') || voices.find(v => v.lang.startsWith('es'));
+            return null;
+        }
+
+        function speak(text, lang, callback) {
+            if (state.isSpeaking) speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            const voice = getVoice(lang);
+            if (voice) utterance.voice = voice;
+
+            if (lang === 'en') {
+                utterance.lang = 'en-US'; utterance.rate = 0.85;
+            } else if (lang === 'vi') {
+                utterance.lang = 'vi-VN'; utterance.rate = 0.9;
+                utterance.pitch = state.dialect === 'south' ? 1.1 : 1.0;
+            } else if (lang === 'es') {
+                utterance.lang = 'es-CO'; utterance.rate = 0.9;
+                utterance.pitch = state.dialect === 'cartagena' ? 1.05 : 1.0;
+            }
+
+            state.isSpeaking = true;
+            showVoiceStatus(lang === 'en' ? 'English' : (lang === 'vi' ? 'Tiếng Việt' : 'Español'));
+            utterance.onend = () => { state.isSpeaking = false; hideVoiceStatus(); if (callback) callback(); };
+            utterance.onerror = () => { state.isSpeaking = false; hideVoiceStatus(); if (callback) callback(); };
+            speechSynthesis.speak(utterance);
+        }
+
+        function speakEnglish(text) { speak(text, 'en'); }
+        function speakNative(text) { speak(text, state.language); }
+        function speakBoth(en, native) { speak(en, 'en', () => setTimeout(() => speak(native, state.language), 400)); }
+
+        function showVoiceStatus(name) {
+            document.getElementById('voiceStatusText').textContent = translations[state.language].speaking + ' ' + name;
+            document.getElementById('voiceStatus').classList.add('active');
+        }
+        function hideVoiceStatus() { document.getElementById('voiceStatus').classList.remove('active'); }
+
+        // === LANGUAGE ===
+        function setLanguage(lang) {
+            state.language = lang;
+            const toggle = document.getElementById('langToggle');
+            toggle.classList.toggle('spanish', lang === 'es');
+            document.querySelectorAll('.language-option').forEach(opt => opt.classList.toggle('active', opt.dataset.lang === lang));
+            state.dialect = dialects[lang][0].id;
+            renderDialectOptions();
+            updateUIText();
+            if (state.currentCategory) renderPhrases(state.currentCategory);
+            renderCategories();
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        function toggleLanguage() { setLanguage(state.language === 'vi' ? 'es' : 'vi'); }
+
+        function setDialect(id) {
+            state.dialect = id;
+            document.querySelectorAll('.dialect-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.dialect === id));
+            localStorage.setItem('preferredDialect', id);
+        }
+
+        function renderDialectOptions() {
+            const opts = dialects[state.language];
+            document.getElementById('dialectOptions').innerHTML = opts.map(d => 
+                `<button class="dialect-btn ${d.id === state.dialect ? 'active' : ''}" data-dialect="${d.id}" onclick="setDialect('${d.id}')">${d.name}</button>`
+            ).join('');
+        }
+
+        function updateUIText() {
+            const t = translations[state.language];
+            document.getElementById('logoSubtitle').textContent = t.logoSubtitle;
+            document.getElementById('welcomeTitle').textContent = t.welcomeTitle;
+            document.getElementById('welcomeSubtitle').textContent = t.welcomeSubtitle;
+            document.getElementById('modeLearnTitle').textContent = t.modeLearnTitle;
+            document.getElementById('modeLearnDesc').textContent = t.modeLearnDesc;
+            document.getElementById('modePracticeTitle').textContent = t.modePracticeTitle;
+            document.getElementById('modePracticeDesc').textContent = t.modePracticeDesc;
+            document.getElementById('modeGameTitle').textContent = t.modeGameTitle;
+            document.getElementById('modeGameDesc').textContent = t.modeGameDesc;
+            document.getElementById('practiceQuestion').textContent = t.fillBlank;
+            document.getElementById('nextBtnText').textContent = t.nextQuestion;
+            document.getElementById('gameScoreLabel').textContent = t.score;
+            document.getElementById('nativeColumnTitle').textContent = t.nativeColumn;
+            document.getElementById('resultScoreLabel').textContent = t.score;
+            document.getElementById('resultCorrectLabel').textContent = t.correct;
+            document.getElementById('resultStarsLabel').textContent = t.stars;
+            document.getElementById('homeBtn').textContent = t.homeBtn;
+            document.getElementById('playAgainText').textContent = t.playAgain;
+            document.getElementById('dialectLabel').textContent = t.dialectLabel;
+            document.getElementById('currentCategoryTitle').textContent = t.selectTopic;
+            document.getElementById('currentCategorySubtitle').textContent = t.clickToLearn;
+            document.querySelectorAll('[data-key]').forEach(el => { if (t[el.dataset.key]) el.textContent = t[el.dataset.key]; });
+        }
+
+        // === UI ===
+        function renderCategories() {
+            const t = translations[state.language];
+            const key = state.language === 'vi' ? 'titleVi' : 'titleEs';
+            document.getElementById('categoryGrid').innerHTML = categories.map(cat => {
+                const learned = cat.phrases.filter(p => state.learnedPhrases.has(p.en)).length;
+                const pct = (learned / cat.phrases.length) * 100;
+                return `<div class="category-card" style="--card-color:${cat.color}" onclick="selectCategory('${cat.id}')">
+                    <div class="category-header">
+                        <div class="category-icon" style="background:${cat.color}">${cat.icon}</div>
+                        <div><div class="category-title">${cat.title}</div><div class="category-title-native">${cat[key]}</div></div>
+                    </div>
+                    <div class="category-progress"><div class="category-progress-fill" style="width:${pct}%;background:${cat.color}"></div></div>
+                    <div class="category-count">${learned}/${cat.phrases.length} ${t.learned}</div>
+                </div>`;
+            }).join('');
+        }
+
+        function selectCategory(id) {
+            const cat = categories.find(c => c.id === id);
+            state.currentCategory = cat;
+            const key = state.language === 'vi' ? 'titleVi' : 'titleEs';
+            document.getElementById('currentCategoryTitle').textContent = cat.title;
+            document.getElementById('currentCategorySubtitle').textContent = cat[key];
+            renderPhrases(cat);
+        }
+
+        function renderPhrases(cat) {
+            const t = translations[state.language];
+            const nKey = state.language === 'vi' ? 'vi' : 'es';
+            const flag = state.language === 'vi' ? '🇻🇳' : '🇨🇴';
+            document.getElementById('phraseGrid').innerHTML = cat.phrases.map(p => {
+                const learned = state.learnedPhrases.has(p.en) ? 'learned' : '';
+                const escEn = p.en.replace(/'/g, "\\'"), escNat = p[nKey].replace(/'/g, "\\'");
+                return `<div class="phrase-card ${learned}" onclick="learnPhrase('${escEn}')">
+                    <div class="phrase-english"><span>🇬🇧</span> ${p.en}</div>
+                    <div class="phrase-native"><span>${flag}</span> ${p[nKey]}</div>
+                    <div class="phrase-buttons">
+                        <button class="speak-btn" onclick="event.stopPropagation();speakEnglish('${escEn}')">${t.speakEnglish}</button>
+                        <button class="speak-btn native" onclick="event.stopPropagation();speakNative('${escNat}')">${t.speakNative}</button>
+                        <button class="speak-btn both" onclick="event.stopPropagation();speakBoth('${escEn}','${escNat}')">${t.speakBoth}</button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // === NAVIGATION ===
+        function hideAllScreens() {
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('learningMode').style.display = 'none';
+            document.getElementById('practiceMode').classList.remove('active');
+            document.getElementById('gameMode').classList.remove('active');
+            document.getElementById('resultsScreen').classList.remove('active');
+            if (state.gameTimer) { clearInterval(state.gameTimer); state.gameTimer = null; }
+            speechSynthesis.cancel();
+        }
+
+        function showWelcome() { hideAllScreens(); document.getElementById('welcomeScreen').style.display = 'block'; }
+        function startLearning() { hideAllScreens(); document.getElementById('learningMode').style.display = 'block'; renderCategories(); }
+        function showLearning() { startLearning(); }
+
+        // === LEARNING ===
+        function learnPhrase(phrase) {
+            if (!state.learnedPhrases.has(phrase)) {
+                state.learnedPhrases.add(phrase);
+                state.stars++; state.streak++;
+                updateScoreDisplay(); saveProgress();
+                if (state.currentCategory) renderPhrases(state.currentCategory);
+                renderCategories();
+                if (state.streak % 5 === 0) showConfetti();
+            }
+            speakEnglish(phrase);
+        }
+
+        // === PRACTICE ===
+        function startPractice() {
+            hideAllScreens();
+            document.getElementById('practiceMode').classList.add('active');
+            const nKey = state.language === 'vi' ? 'vi' : 'es';
+            state.practiceQuestions = shuffle(categories.flatMap(c => c.phrases.map(p => ({ ...p, native: p[nKey] })))).slice(0, 10);
+            state.currentPracticeIndex = 0; state.practiceResults = [];
+            showPracticeQuestion();
+        }
+
+        function showPracticeQuestion() {
+            const q = state.practiceQuestions[state.currentPracticeIndex];
+            const blank = q.en.replace(/\.{3}$/, '');
+            document.getElementById('practiceSentence').innerHTML = `<span class="practice-blank">${blank}</span> ...`;
+            document.getElementById('practiceHint').textContent = '💡 ' + q.native;
+            document.getElementById('practiceFeedback').classList.remove('show');
+            document.getElementById('nextBtn').style.display = 'none';
+
+            const all = categories.flatMap(c => c.phrases.map(p => p.en.replace(/\.{3}$/, '')));
+            const wrong = shuffle(all.filter(x => x !== blank)).slice(0, 3);
+            const opts = shuffle([blank, ...wrong]);
+            document.getElementById('practiceOptions').innerHTML = opts.map(o => 
+                `<button class="practice-option" onclick="checkPractice('${o.replace(/'/g, "\\'")}','${blank.replace(/'/g, "\\'")}')">${o}...</button>`
+            ).join('');
+            updatePracticeProgress();
+        }
+
+        function updatePracticeProgress() {
+            document.getElementById('practiceProgress').innerHTML = state.practiceQuestions.map((_, i) => {
+                let cls = 'progress-dot';
+                if (i < state.currentPracticeIndex) cls += state.practiceResults[i] ? ' completed' : ' incorrect-dot';
+                else if (i === state.currentPracticeIndex) cls += ' current';
+                return `<div class="${cls}"></div>`;
+            }).join('');
+        }
+
+        function checkPractice(sel, correct) {
+            const ok = sel === correct;
+            const t = translations[state.language];
+            document.querySelectorAll('.practice-option').forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent.includes(sel)) btn.classList.add(ok ? 'correct' : 'incorrect');
+                if (!ok && btn.textContent.includes(correct)) btn.classList.add('correct');
+            });
+            const fb = document.getElementById('practiceFeedback');
+            fb.textContent = ok ? t.correctAnswer : `${t.wrongAnswer} ${correct}...`;
+            fb.className = `practice-feedback show ${ok ? 'correct' : 'incorrect'}`;
+            speakEnglish(correct + '...');
+            state.practiceResults.push(ok);
+            if (ok) { state.stars += 2; state.streak++; } else { state.streak = 0; }
+            updateScoreDisplay(); saveProgress();
+            if (state.currentPracticeIndex < state.practiceQuestions.length - 1) {
+                document.getElementById('nextBtn').style.display = 'inline-flex';
+            } else { setTimeout(() => showResults('practice'), 1500); }
+            updatePracticeProgress();
+        }
+
+        function nextPracticeQuestion() { state.currentPracticeIndex++; showPracticeQuestion(); }
+
+        // === GAME ===
+        function startGame() {
+            hideAllScreens();
+            document.getElementById('gameMode').classList.add('active');
+            state.gameTimeLeft = 60; state.gameScore = 0; state.selectedEnglish = null; state.matchedPairs = new Set();
+            document.getElementById('gameTimer').textContent = 60;
+            document.getElementById('gameScore').textContent = 0;
+            generateGamePairs();
+            state.gameTimer = setInterval(() => {
+                state.gameTimeLeft--;
+                document.getElementById('gameTimer').textContent = state.gameTimeLeft;
+                if (state.gameTimeLeft <= 0) { clearInterval(state.gameTimer); showResults('game'); }
+            }, 1000);
+        }
+
+        function generateGamePairs() {
+            const nKey = state.language === 'vi' ? 'vi' : 'es';
+            const all = categories.flatMap(c => c.phrases);
+            const sel = shuffle(all).slice(0, 6);
+            const shuf = shuffle([...sel]);
+            document.getElementById('englishColumn').innerHTML = sel.map(p => 
+                `<div class="match-item" data-phrase="${p.en}" onclick="selectEnglish(this)">${p.en}</div>`
+            ).join('');
+            document.getElementById('nativeColumn').innerHTML = shuf.map(p => 
+                `<div class="match-item" data-phrase="${p.en}" onclick="selectNative(this)">${p[nKey]}</div>`
+            ).join('');
+        }
+
+        function selectEnglish(el) {
+            if (el.classList.contains('matched')) return;
+            document.querySelectorAll('#englishColumn .match-item').forEach(i => i.classList.remove('selected'));
+            el.classList.add('selected');
+            state.selectedEnglish = el.dataset.phrase;
+        }
+
+        function selectNative(el) {
+            if (el.classList.contains('matched') || !state.selectedEnglish) return;
+            if (state.selectedEnglish === el.dataset.phrase) {
+                el.classList.add('matched');
+                document.querySelector(`#englishColumn .match-item[data-phrase="${state.selectedEnglish}"]`).classList.add('matched');
+                document.querySelector(`#englishColumn .match-item[data-phrase="${state.selectedEnglish}"]`).classList.remove('selected');
+                state.matchedPairs.add(state.selectedEnglish);
+                state.gameScore += 10; state.stars += 3; state.streak++;
+                document.getElementById('gameScore').textContent = state.gameScore;
+                updateScoreDisplay(); saveProgress();
+                speakEnglish(state.selectedEnglish);
+                if (state.matchedPairs.size >= 6) { clearInterval(state.gameTimer); state.gameScore += state.gameTimeLeft * 2; setTimeout(() => showResults('game'), 800); }
+            } else {
+                el.classList.add('wrong'); state.streak = 0; updateScoreDisplay();
+                setTimeout(() => el.classList.remove('wrong'), 500);
+            }
+            state.selectedEnglish = null;
+        }
+
+        // === RESULTS ===
+        function showResults(mode) {
+            hideAllScreens();
+            document.getElementById('resultsScreen').classList.add('active');
+            const t = translations[state.language];
+            let score, correct, stars, icon, title, msg;
+            if (mode === 'practice') {
+                correct = state.practiceResults.filter(r => r).length;
+                score = correct * 20; stars = correct * 2;
+                if (correct >= 8) { icon = '🏆'; title = t.excellent; msg = t.excellentMsg; }
+                else if (correct >= 5) { icon = '🌟'; title = t.great; msg = t.greatMsg; }
+                else { icon = '💪'; title = t.tryHarder; msg = t.tryHarderMsg; }
+                document.getElementById('playAgainBtn').onclick = startPractice;
+            } else {
+                score = state.gameScore; correct = state.matchedPairs.size; stars = Math.floor(score / 10);
+                if (score >= 100) { icon = '🏆'; title = t.excellent; msg = t.excellentMsg; }
+                else if (score >= 50) { icon = '🌟'; title = t.great; msg = t.greatMsg; }
+                else { icon = '💪'; title = t.tryHarder; msg = t.tryHarderMsg; }
+                document.getElementById('playAgainBtn').onclick = startGame;
+            }
+            document.getElementById('resultsIcon').textContent = icon;
+            document.getElementById('resultsTitle').textContent = title;
+            document.getElementById('resultsMessage').textContent = msg;
+            document.getElementById('resultScore').textContent = score;
+            document.getElementById('resultCorrect').textContent = correct;
+            document.getElementById('resultStars').textContent = stars;
+            if (correct >= 5) showConfetti();
+        }
+
+        // === UTILS ===
+        function updateScoreDisplay() {
+            document.getElementById('totalStars').textContent = state.stars;
+            document.getElementById('streakCount').textContent = state.streak;
+            document.getElementById('streakIcon').classList.toggle('streak-fire', state.streak >= 5);
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('englishLearningProgress');
+            if (saved) {
+                const d = JSON.parse(saved);
+                state.stars = d.stars || 0; state.streak = d.streak || 0;
+                state.learnedPhrases = new Set(d.learnedPhrases || []);
+                updateScoreDisplay();
+            }
+            const lang = localStorage.getItem('preferredLanguage');
+            if (lang) state.language = lang;
+            const dialect = localStorage.getItem('preferredDialect');
+            if (dialect) state.dialect = dialect;
+        }
+
+        function saveProgress() {
+            localStorage.setItem('englishLearningProgress', JSON.stringify({
+                stars: state.stars, streak: state.streak, learnedPhrases: Array.from(state.learnedPhrases)
+            }));
+        }
+
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+            return a;
+        }
+
+        function showConfetti() {
+            const c = document.createElement('div'); c.className = 'confetti'; document.body.appendChild(c);
+            const colors = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#A78BFA', '#F472B6'];
+            for (let i = 0; i < 50; i++) {
+                const p = document.createElement('div'); p.className = 'confetti-piece';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                p.style.animationDelay = Math.random() * 2 + 's';
+                c.appendChild(p);
+            }
+            setTimeout(() => c.remove(), 3500);
+        }
+
+        document.querySelectorAll('.age-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.age-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // === INIT ===
+        initVoices();
+        loadProgress();
+        setLanguage(state.language);
+        if (state.dialect) setDialect(state.dialect);
+        renderCategories();
+    </script>
+</body>
+</html>

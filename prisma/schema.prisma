@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// User Profile & Preferences
+model User {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Preferences
+  nativeLanguage String // "vi" or "es"
+  dialect        String // e.g., "vi_north", "es_medellin"
+  
+  // Learning Mode
+  mode           String // "academic" or "conversational"
+  subMode        String? // "proper" or "slang" (only for conversational)
+  
+  // Progress
+  stars          Int      @default(0)
+  streak         Int      @default(0)
+  
+  // Relations
+  completedPhrases CompletedPhrase[]
+}
+
+// Tracking learned content
+model CompletedPhrase {
+  id        String   @id @default(uuid())
+  userId    String
+  phraseId  String   // ID from the content JSON file
+  learnedAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id])
+  
+  @@unique([userId, phraseId])
+}
+
+// ---------------------------------------------------------
+// ADVERTISEMENT SYSTEM
+// ---------------------------------------------------------
+
+model AdCampaign {
+  id          String   @id @default(uuid())
+  name        String
+  imageUrl    String   // URL to image on CDN
+  targetUrl   String   // Where the ad links to
+  isActive    Boolean  @default(true)
+  
+  // Simple Targeting
+  targetLanguage String? // e.g., "vi" shows only to Vietnamese speakers
+  targetRegion   String? // e.g., "CO" (Colombia) - derived from IP or selection
+  
+  // Analytics
+  views       Int      @default(0)
+  clicks      Int      @default(0)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
