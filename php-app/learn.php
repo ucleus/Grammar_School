@@ -12,10 +12,13 @@
     <div class="max-w-2xl mx-auto space-y-8">
         <!-- Header -->
         <header class="flex items-center justify-between">
-            <a href="setup.php" class="text-slate-400 hover:text-slate-600">← Settings</a>
-            <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
-                <span class="text-xl">🔥</span>
-                <span class="font-bold text-brand-orange">0 Streaks</span>
+            <a href="setup.php" class="text-slate-400 hover:text-slate-600 font-bold flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                Settings
+            </a>
+            <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm text-brand-orange">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.1.2-2.2.5-3.3.3-1.07 1.1-2.06 2-3.2v4.8z"/></svg>
+                <span class="font-bold">0 Streaks</span>
             </div>
         </header>
 
@@ -34,7 +37,7 @@
                  Loading...
                </span>
                <button id="play-btn" class="w-12 h-12 rounded-full bg-brand-blue/10 text-brand-blue flex items-center justify-center hover:bg-brand-blue hover:text-white transition-colors">
-                 🔊
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
                </button>
             </div>
 

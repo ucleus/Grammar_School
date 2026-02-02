@@ -60,13 +60,19 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'xi-api-key: ' . $ELEVENLABS_API_KEY
 ]);
 
+// IMPORTANT: Fix for Shared Hosting SSL issues
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlError = curl_error($ch);
 curl_close($ch);
 
 if ($httpCode !== 200) {
     http_response_code(500);
-    echo json_encode(['error' => 'ElevenLabs Error']);
+    // Return detailed error for debugging (remove in strict production)
+    echo json_encode(['error' => 'ElevenLabs Error (' . $httpCode . ')', 'details' => $response, 'curl_error' => $curlError]);
     exit;
 }
 
